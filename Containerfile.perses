@@ -1,4 +1,4 @@
-FROM node:20 AS node-builder
+FROM registry.redhat.io/ubi9/nodejs-20:latest AS node-builder
 WORKDIR /app
 COPY perses/ui ui
 COPY perses/Makefile Makefile

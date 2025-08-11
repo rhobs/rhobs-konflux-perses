@@ -1,7 +1,10 @@
 FROM registry.redhat.io/ubi9/nodejs-20:latest AS node-builder
+USER root
 WORKDIR /app
 COPY perses/ui ui
 COPY perses/Makefile Makefile
+RUN chown -R 1001:1001 /app
+USER 1001
 RUN make build-ui
 
 FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_golang_1.24 as builder

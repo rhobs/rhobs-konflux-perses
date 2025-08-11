@@ -1,21 +1,25 @@
 # Licensed under the Apache License 2.0
+FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_golang_1.24 as builder
 
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_golang_1.24 as build-env
+USER root
 
-RUN dnf install -y make bash mailcap jq && dnf clean all
+RUN dnf install -y --setopt=tsflags=nodocs mailcap && \
+    dnf clean all && \
+    rm -rf /var/cache/dnf
 
 WORKDIR /app
+
 COPY perses-operator/ .
 
-RUN make build
+RUN make bin
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
-USER 65532:65532
+USER nobody
 
-COPY --from=build-env --chown=65532:65532 /app/bin/manager  /bin/manager
-COPY --chown=65532:65532 LICENSE                            /LICENSE
-COPY --from=build-env --chown=65532:65532                   /etc/mime.types /etc/mime.types
+COPY --from=builder --chown=nobody:nobody /app/bin/manager  /bin/manager
+COPY --from=builder --chown=nobody:nobody /app/LICENSE      /LICENSE
+COPY --from=builder --chown=nobody:nobody /etc/mime.types   /etc/mime.types
 
 EXPOSE     8080
 ENTRYPOINT [ "/bin/manager" ]

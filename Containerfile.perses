@@ -45,26 +45,13 @@ VOLUME     ["/perses"]
 ENTRYPOINT [ "/bin/perses" ]
 CMD        ["--config=/etc/perses/config.yaml", "--log.level=error"]
 
-ARG IMAGE_NAME
-ARG IMAGE_DESCRIPTION
-ARG IMAGE_DISPLAY_NAME
-ARG IMAGE_NAME_ARCH
-ARG IMAGE_MAINTAINER
-ARG IMAGE_VENDOR
-ARG IMAGE_VERSION
-ARG IMAGE_RELEASE
-ARG IMAGE_SUMMARY
-ARG IMAGE_OPENSHIFT_TAGS
+ARG VERSION
 
-LABEL org.label-schema.vendor="Red Hat" \
-  vendor="Red Hat, Inc." \
+LABEL vendor="Red Hat, Inc." \
   com.redhat.component="rhobs-perses" \
-  name="$IMAGE_NAME" \
-  maintainer="$IMAGE_MAINTAINER" \
-  version="$IMAGE_VERSION" \
-  release="$IMAGE_RELEASE" \
-  description="rhobs-perses" \
-  summary="$IMAGE_SUMMARY" \
-  io.k8s.display-name="rhobs-perses" \
-  io.k8s.description="rhobs-perses" \
-  io.openshift.tags="$IMAGE_OPENSHIFT_TAGS"
+  name="perses" \
+  maintainer="team-monitoring@redhat.com" \
+  version="$VERSION" \
+  release="$VERSION" \
+  description="Perses is a dashboard tool to visualize all your observability data. It currently supports Prometheus metrics, Tempo traces, Loki for logs, Pyroscope for profiling, bringing together all four observability pillars in one place." \
+  summary="Dashboard tool for Prometheus and other data sources"

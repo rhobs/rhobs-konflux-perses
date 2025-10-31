@@ -31,7 +31,7 @@ COPY --from=builder  /app/bin/perses                         /bin/perses
 COPY --from=builder  /app/bin/percli                         /bin/percli
 COPY --from=builder  /app/docs/examples/config.docker.yaml   /etc/perses/config.yaml
 COPY --from=builder  /app/plugins-archive/                   /etc/perses/plugins-archive/
-COPY --from=builder  /app/LICENSE                            /LICENSE
+COPY --from=builder  /app/LICENSE                            /licenses/LICENSE
 COPY --from=builder  /plugins                                /etc/perses/plugins
 COPY --from=builder  /etc/mime.types                         /etc/mime.types
 

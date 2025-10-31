@@ -18,7 +18,7 @@ FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 USER nobody
 
 COPY --from=builder --chown=nobody:nobody /app/bin/manager  /bin/manager
-COPY --from=builder --chown=nobody:nobody /app/LICENSE      /LICENSE
+COPY --from=builder --chown=nobody:nobody /app/LICENSE      /licenses/LICENSE
 COPY --from=builder --chown=nobody:nobody /etc/mime.types   /etc/mime.types
 
 EXPOSE     8080

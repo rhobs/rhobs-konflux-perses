@@ -35,8 +35,10 @@ COPY --from=builder  /app/LICENSE                            /licenses/LICENSE
 COPY --from=builder  /plugins                                /etc/perses/plugins
 COPY --from=builder  /etc/mime.types                         /etc/mime.types
 
-RUN chgrp -R 0 /etc/perses && \
+RUN chgrp -R nobody /etc/perses && \
     chmod -R g=u /etc/perses
+
+USER nobody
 
 WORKDIR /perses
 

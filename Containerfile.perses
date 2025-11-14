@@ -7,7 +7,7 @@ RUN chown -R 1001:1001 /app
 USER 1001
 RUN make build-ui
 
-FROM brew.registry.redhat.io/rh-osbs/openshift-golang-builder:rhel_9_golang_1.24 as builder
+FROM quay.io/redhat-services-prod/openshift/boilerplate:image-v8.0.0 as builder
 USER root
 
 RUN dnf install -y --setopt=tsflags=nodocs mailcap && \

@@ -1,29 +1,19 @@
-FROM registry.redhat.io/ubi9/nodejs-20:latest AS node-builder
-USER root
-WORKDIR /app
-COPY perses/ui ui
-COPY perses/Makefile Makefile
-RUN chown -R 1001:1001 /app
-USER 1001
-RUN make build-ui
-
+#FROM registry.redhat.io/ubi9/nodejs-20:latest AS node-builder
 FROM quay.io/redhat-services-prod/openshift/boilerplate:image-v8.0.0 as builder
 USER root
 
-RUN dnf install -y --setopt=tsflags=nodocs mailcap && \
+RUN dnf -y module enable nodejs:20 && \
+    dnf install -y --setopt=tsflags=nodocs nodejs nodejs-libs mailcap && \
     dnf clean all && \
     rm -rf /var/cache/dnf
 
 WORKDIR /app
-
 COPY perses/ .
-COPY --from=node-builder /app/ui/app/dist ui/app/dist
 
 ENV GOFLAGS="-mod=readonly"
 RUN go mod download
 RUN mkdir /plugins
-RUN make build-api
-RUN make build-cli
+RUN make build-ui build-api build-cli
 
 FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
